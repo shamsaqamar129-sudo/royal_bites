@@ -1,0 +1,649 @@
+{
+  "entities": {
+    "AdminRecord": {
+      "title": "AdminRecord",
+      "description": "Trusted administrator registry document keyed by Firebase Auth UID.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "UserPublicProfile": {
+      "title": "UserPublicProfile",
+      "description": "Non-PII customer profile storing display name, wishlist dish IDs, and recently viewed dish IDs.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "photoURL": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "wishlist": {
+          "type": "array",
+          "description": "Bounded list of up to 50 dish IDs."
+        },
+        "recentlyViewed": {
+          "type": "array",
+          "description": "Bounded list of up to 20 dish IDs."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "displayName", "wishlist", "recentlyViewed", "createdAt", "updatedAt"]
+    },
+    "UserPrivateInfo": {
+      "title": "UserPrivateInfo",
+      "description": "Isolated PII document storing customer email, phone number, and dietary preferences.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "phone": {
+          "type": "string",
+          "maxLength": 30
+        },
+        "dietaryPreferences": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "phone", "dietaryPreferences", "updatedAt"]
+    },
+    "SavedAddress": {
+      "title": "SavedAddress",
+      "description": "Saved customer delivery address stored in a user subcollection.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "recipientName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "phone": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 30
+        },
+        "street": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 200
+        },
+        "zoneId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "isDefault": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["userId", "label", "recipientName", "phone", "street", "zoneId", "notes", "isDefault", "createdAt", "updatedAt"]
+    },
+    "MenuItemDoc": {
+      "title": "MenuItemDoc",
+      "description": "Restaurant menu dish managed by administrators and publicly viewable on the storefront.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "category": {
+          "type": "string",
+          "enum": ["Burgers", "Pizza", "BBQ", "Fast Food", "Drinks", "Desserts"]
+        },
+        "price": {
+          "type": "number"
+        },
+        "promoPrice": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 500
+        },
+        "prepTime": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 30
+        },
+        "dietaryNote": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "specialOfferLabel": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "imageKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "featured": {
+          "type": "boolean"
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["name", "category", "price", "promoPrice", "description", "prepTime", "dietaryNote", "specialOfferLabel", "imageKey", "featured", "available", "createdAt", "updatedAt"]
+    },
+    "CouponDoc": {
+      "title": "CouponDoc",
+      "description": "Promotional coupon code managed by restaurant admins.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32,
+          "pattern": "^[A-Z0-9_\\-]+$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 160
+        },
+        "discountType": {
+          "type": "string",
+          "enum": ["percentage", "fixed"]
+        },
+        "discountValue": {
+          "type": "number"
+        },
+        "minOrderAmount": {
+          "type": "number"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["code", "description", "discountType", "discountValue", "minOrderAmount", "active", "createdAt", "updatedAt"]
+    },
+    "DeliveryZoneDoc": {
+      "title": "DeliveryZoneDoc",
+      "description": "Delivery zone configuration including fee, minimum order, and estimated courier window.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "fee": {
+          "type": "number"
+        },
+        "minOrder": {
+          "type": "number"
+        },
+        "estimatedTime": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 40
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["name", "fee", "minOrder", "estimatedTime", "active", "createdAt", "updatedAt"]
+    },
+    "RestaurantSettingsDoc": {
+      "title": "RestaurantSettingsDoc",
+      "description": "Global storefront settings including promotional banner, opening hours, and tax rate.",
+      "type": "object",
+      "properties": {
+        "promoBannerActive": {
+          "type": "boolean"
+        },
+        "promoBannerText": {
+          "type": "string",
+          "maxLength": 180
+        },
+        "promoBannerCode": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "taxRatePercent": {
+          "type": "number"
+        },
+        "freeDeliveryThreshold": {
+          "type": "number"
+        },
+        "weekdayHours": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 50
+        },
+        "weekendHours": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 50
+        },
+        "sundayHours": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 50
+        },
+        "acceptingOrders": {
+          "type": "boolean"
+        },
+        "whatsappNumber": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 24
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["promoBannerActive", "promoBannerText", "promoBannerCode", "taxRatePercent", "freeDeliveryThreshold", "weekdayHours", "weekendHours", "sundayHours", "acceptingOrders", "whatsappNumber", "updatedAt"]
+    },
+    "OrderDoc": {
+      "title": "OrderDoc",
+      "description": "Customer food order header with pricing breakdown, tracking status, and reorder references.",
+      "type": "object",
+      "properties": {
+        "orderNumber": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 24
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "customerName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "phone": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 30
+        },
+        "address": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 220
+        },
+        "zoneName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "itemSummary": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 800
+        },
+        "reorderDishIds": {
+          "type": "array",
+          "description": "Bounded list of up to 20 dish IDs for 1-click reorder."
+        },
+        "subtotal": {
+          "type": "number"
+        },
+        "discountAmount": {
+          "type": "number"
+        },
+        "couponCode": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "taxAmount": {
+          "type": "number"
+        },
+        "deliveryFee": {
+          "type": "number"
+        },
+        "total": {
+          "type": "number"
+        },
+        "channel": {
+          "type": "string",
+          "enum": ["Pay on Delivery", "WhatsApp Concierge"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Pending", "Confirmed", "Preparing", "Out for Delivery", "Completed", "Cancelled"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["orderNumber", "userId", "customerName", "phone", "address", "zoneName", "notes", "itemSummary", "reorderDishIds", "subtotal", "discountAmount", "couponCode", "taxAmount", "deliveryFee", "total", "channel", "status", "createdAt", "updatedAt"]
+    },
+    "OrderLineItemDoc": {
+      "title": "OrderLineItemDoc",
+      "description": "Individual customized dish line item stored in an order subcollection.",
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "dishId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "dishName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "sizeLabel": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "extrasSummary": {
+          "type": "string",
+          "maxLength": 250
+        },
+        "unitPrice": {
+          "type": "number"
+        },
+        "quantity": {
+          "type": "number"
+        },
+        "lineTotal": {
+          "type": "number"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["orderId", "userId", "dishId", "dishName", "sizeLabel", "extrasSummary", "unitPrice", "quantity", "lineTotal", "createdAt"]
+    },
+    "ReservationDoc": {
+      "title": "ReservationDoc",
+      "description": "Customer table reservation document with status tracking.",
+      "type": "object",
+      "properties": {
+        "reservationCode": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 24
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "phone": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 30
+        },
+        "date": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 16
+        },
+        "time": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 12
+        },
+        "guests": {
+          "type": "number"
+        },
+        "seating": {
+          "type": "string",
+          "enum": ["Main Dining Room", "Chef's Fire Counter", "Private Salon"]
+        },
+        "specialRequests": {
+          "type": "string",
+          "maxLength": 250
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Pending Review", "Confirmed", "Seated", "Completed", "Cancelled"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["reservationCode", "userId", "name", "phone", "date", "time", "guests", "seating", "specialRequests", "status", "createdAt", "updatedAt"]
+    },
+    "ReviewDoc": {
+      "title": "ReviewDoc",
+      "description": "Verified customer dish review and star rating.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "authorName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "dishName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "rating": {
+          "type": "number"
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 600
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["userId", "authorName", "dishName", "rating", "comment", "createdAt"]
+    },
+    "NewsletterDoc": {
+      "title": "NewsletterDoc",
+      "description": "Authenticated member newsletter subscription record isolated by UID.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["userId", "email", "active", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/admins/{adminUid}": {
+      "schema": { "$ref": "#/entities/AdminRecord" },
+      "description": "Administrator registry keyed by user UID."
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserPublicProfile" },
+      "description": "Customer public preferences, wishlist, and recently viewed items."
+    },
+    "/users/{userId}/private/{docId}": {
+      "schema": { "$ref": "#/entities/UserPrivateInfo" },
+      "description": "Isolated PII profile document for email, phone, and dietary preferences."
+    },
+    "/users/{userId}/addresses/{addressId}": {
+      "schema": { "$ref": "#/entities/SavedAddress" },
+      "description": "Customer saved delivery addresses subcollection."
+    },
+    "/menuItems/{itemId}": {
+      "schema": { "$ref": "#/entities/MenuItemDoc" },
+      "description": "Publicly readable restaurant menu dishes."
+    },
+    "/coupons/{couponCode}": {
+      "schema": { "$ref": "#/entities/CouponDoc" },
+      "description": "Discount coupons and promotional offers."
+    },
+    "/deliveryZones/{zoneId}": {
+      "schema": { "$ref": "#/entities/DeliveryZoneDoc" },
+      "description": "Delivery zones and courier charges."
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/RestaurantSettingsDoc" },
+      "description": "Global restaurant opening hours, tax rate, and promotional banner settings."
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/OrderDoc" },
+      "description": "Customer orders isolated by owner UID and admin access."
+    },
+    "/orders/{orderId}/items/{lineId}": {
+      "schema": { "$ref": "#/entities/OrderLineItemDoc" },
+      "description": "Customized line items belonging to an order."
+    },
+    "/reservations/{reservationId}": {
+      "schema": { "$ref": "#/entities/ReservationDoc" },
+      "description": "Table reservations isolated by owner UID and admin access."
+    },
+    "/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/ReviewDoc" },
+      "description": "Verified customer dish reviews and star ratings."
+    },
+    "/newsletterSubscribers/{subscriberId}": {
+      "schema": { "$ref": "#/entities/NewsletterDoc" },
+      "description": "Member newsletter subscriptions keyed by UID."
+    }
+  }
+}

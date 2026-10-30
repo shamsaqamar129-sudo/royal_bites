@@ -1,0 +1,6 @@
+{
+  "name": "Royal Bites",
+  "description": "Order A5 Wagyu burgers, 48-hour sourdough truffle pizzas, and oak-smoked ribs from Royal Bites, or reserve a private dining table online.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

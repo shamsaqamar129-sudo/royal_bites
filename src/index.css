@@ -1,0 +1,136 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-obsidian: #0A0A0C;
+  --color-charcoal: #131317;
+  --color-charcoal-elevated: #1A1A20;
+  --color-gold: #D4AF37;
+  --color-gold-light: #E5C76B;
+  --color-gold-muted: #9E7B1C;
+  --color-ivory: #F5F5F3;
+}
+
+:root {
+  --rb-bg: #FAF8F4;
+  --rb-bg-alt: #F2EFE9;
+  --rb-surface: #FFFFFF;
+  --rb-surface-elevated: #F7F4EE;
+  --rb-text: #141417;
+  --rb-text-muted: #57554F;
+  --rb-text-subtle: #78756D;
+  --rb-border: rgba(20, 20, 23, 0.11);
+  --rb-accent: #9A7414;
+  --rb-gold-btn: #D4AF37;
+  --rb-gold-btn-hover: #C59F27;
+  --rb-gold-btn-text: #0A0A0C;
+}
+
+.dark {
+  --rb-bg: #0A0A0C;
+  --rb-bg-alt: #0E0E12;
+  --rb-surface: #121216;
+  --rb-surface-elevated: #18181E;
+  --rb-text: #F5F5F3;
+  --rb-text-muted: rgba(245, 245, 243, 0.68);
+  --rb-text-subtle: rgba(245, 245, 243, 0.48);
+  --rb-border: rgba(255, 255, 255, 0.09);
+  --rb-accent: #D4AF37;
+  --rb-gold-btn: #D4AF37;
+  --rb-gold-btn-hover: #E5C76B;
+  --rb-gold-btn-text: #0A0A0C;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: var(--rb-bg);
+    color: var(--rb-text);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--rb-bg);
+    color: var(--rb-text);
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-serif);
+    text-wrap: balance;
+  }
+}
+
+.rb-bg {
+  background-color: var(--rb-bg);
+}
+.rb-bg-alt {
+  background-color: var(--rb-bg-alt);
+}
+.rb-surface {
+  background-color: var(--rb-surface);
+}
+.rb-surface-elevated {
+  background-color: var(--rb-surface-elevated);
+}
+.rb-text {
+  color: var(--rb-text);
+}
+.rb-text-muted {
+  color: var(--rb-text-muted);
+}
+.rb-text-subtle {
+  color: var(--rb-text-subtle);
+}
+.rb-border {
+  border-color: var(--rb-border);
+}
+.rb-accent {
+  color: var(--rb-accent);
+}
+
+/* Hide scrollbars cleanly on horizontal category strips */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-receipt,
+  #printable-receipt * {
+    visibility: visible;
+  }
+  #printable-receipt {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    padding: 24px !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
